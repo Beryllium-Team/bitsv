@@ -9,7 +9,7 @@ import logging
 from .whatsonchain import WhatsonchainNormalised
 
 from .mattercloud import MatterCloud, MATTERCLOUD_API_KEY_VARNAME
-from .bsvbookguarda import BSVBookGuardaAPI
+#from .bsvbookguarda import BSVBookGuardaAPI
 
 DEFAULT_TIMEOUT = 30
 DEFAULT_RETRY = 3
@@ -78,12 +78,12 @@ class NetworkAPI:
         self.network = network
 
         # Instantiate Normalized apis
-        self.bchsvexplorer = BSVBookGuardaAPI  # classmethods, mainnet only
+        #self.bchsvexplorer = BSVBookGuardaAPI  # classmethods, mainnet only
         self.whatsonchain = WhatsonchainNormalised(network=self.network)
 
         # Allows extra apis for 'main' that may not support testnet (e.g. blockchair)
         if network == 'main':
-            self.list_of_apis = collections.deque([self.whatsonchain, self.bchsvexplorer])
+            self.list_of_apis = collections.deque([self.whatsonchain]) #, self.bchsvexplorer])
         elif network == 'test':
             self.list_of_apis = collections.deque([self.whatsonchain])
         elif network == 'stn':
