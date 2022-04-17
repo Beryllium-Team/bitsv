@@ -271,7 +271,8 @@ def construct_input_block(inputs):
     return input_block
 
 
-def create_p2pkh_transaction(private_key, unspents, outputs, custom_pushdata=False):
+def create_p2pkh_transaction(
+        private_key, unspents, outputs, custom_pushdata=False):
 
     public_key = private_key.public_key
     public_key_len = len(public_key).to_bytes(1, byteorder='little')
