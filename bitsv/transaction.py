@@ -324,7 +324,7 @@ def create_p2pkh_transaction(
         hashed = sha256(to_be_hashed)  # BIP-143: Used for Bitcoin SV
 
         # signature = private_key.sign(hashed) + b'\x01'
-        signature = private_key.sign(hashed) + b'\x41'
+        signature = default_private_key.sign(hashed) + b'\x41'
 
         script_sig = (
             len(signature).to_bytes(1, byteorder='little') +
