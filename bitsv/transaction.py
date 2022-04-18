@@ -43,14 +43,15 @@ MESSAGE_LIMIT = 100000  # The real limiting factor seems to be total transaction
 
 
 class TxIn:
-    __slots__ = ('script', 'script_len', 'txid', 'txindex', 'amount')
+    __slots__ = ('script', 'script_len', 'txid', 'txindex', 'amount', 'key')
 
-    def __init__(self, script, script_len, txid, txindex, amount):
+    def __init__(self, script, script_len, txid, txindex, amount, key=None):
         self.script = script
         self.script_len = script_len
         self.txid = txid
         self.txindex = txindex
         self.amount = amount
+        self.key = key
 
     def __eq__(self, other):
         return (self.script == other.script and

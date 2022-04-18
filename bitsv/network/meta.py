@@ -5,13 +5,14 @@ TX_TRUST_HIGH = 30
 
 class Unspent:
     """Represents an unspent transaction output (UTXO)."""
-    __slots__ = ('amount', 'confirmations', 'txid', 'txindex')
+    __slots__ = ('amount', 'confirmations', 'txid', 'txindex', 'key')
 
-    def __init__(self, amount, confirmations, txid, txindex):
+    def __init__(self, amount, confirmations, txid, txindex, key=None):
         self.amount = amount
         self.confirmations = confirmations
         self.txid = txid
         self.txindex = txindex
+        self.key = key
 
     def to_dict(self):
         return {attr: getattr(self, attr) for attr in Unspent.__slots__}
