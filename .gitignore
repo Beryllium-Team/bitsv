@@ -13,3 +13,4 @@ __pycache__
 /wheelhouse
 .venv/
 .coverage*
+*.swp
