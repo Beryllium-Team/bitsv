@@ -296,8 +296,10 @@ def create_p2pkh_transaction(
         txid = hex_to_bytes(unspent.txid)[::-1]
         txindex = unspent.txindex.to_bytes(4, byteorder='little')
         amount = unspent.amount.to_bytes(8, byteorder='little')
+        # We'll just put the key in TxIn as in, and FIXME
+        key = unspent.key
 
-        inputs.append(TxIn('', 0, txid, txindex, amount))
+        inputs.append(TxIn('', 0, txid, txindex, amount, key=key))
 
     hashPrevouts = double_sha256(b''.join([i.txid+i.txindex for i in inputs]))
     hashSequence = double_sha256(b''.join([SEQUENCE for i in inputs]))
