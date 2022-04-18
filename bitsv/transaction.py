@@ -275,11 +275,11 @@ def construct_input_block(inputs):
 def create_p2pkh_transaction(
         private_key, unspents, outputs, custom_pushdata=False):
 
-    public_key = private_key.public_key
-    public_key_len = len(public_key).to_bytes(1, byteorder='little')
+    default_public_key = private_key.public_key
+    default_public_key_len = len(default_public_key).to_bytes(1, byteorder='little')
 
-    scriptCode = private_key.scriptcode
-    scriptCode_len = int_to_varint(len(scriptCode))
+    default_scriptCode = private_key.scriptcode
+    default_scriptCode_len = int_to_varint(len(default_scriptCode))
 
     version = VERSION_1
     lock_time = LOCK_TIME
@@ -311,8 +311,8 @@ def create_p2pkh_transaction(
             hashSequence +
             txin.txid +
             txin.txindex +
-            scriptCode_len +
-            scriptCode +
+            default_scriptCode_len +
+            default_scriptCode +
             txin.amount +
             SEQUENCE +
             hashOutputs +
@@ -327,8 +327,8 @@ def create_p2pkh_transaction(
         script_sig = (
             len(signature).to_bytes(1, byteorder='little') +
             signature +
-            public_key_len +
-            public_key
+            default_public_key_len +
+            default_public_key
         )
 
         inputs[i].script = script_sig
