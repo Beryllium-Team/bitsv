@@ -307,14 +307,29 @@ def create_p2pkh_transaction(
 
     # scriptCode_len is part of the script.
     for i, txin in enumerate(inputs):
+        if txin.key is not None:
+            input_scriptCode = txin.key.scriptcode
+            input_scriptCode_len = int_to_varint(len(txin.key.scriptcode))
+            input_private_key = txin.key
+            input_public_key = input_private_key.public_key
+            input_public_key_len = len(input_public_key).to_bytes(1, byteorder='little')
+
+        else:
+            input_scriptCode_len = default_scriptCode_len
+            input_scriptCode = default_scriptCode
+            input_private_key = private_key
+            input_public_key = default_public_key
+            input_public_key_len = default_public_key_len
+
+
         to_be_hashed = (
             version +
             hashPrevouts +
             hashSequence +
             txin.txid +
             txin.txindex +
-            default_scriptCode_len +
-            default_scriptCode +
+            input_scriptCode_len +
+            input_scriptCode +
             txin.amount +
             SEQUENCE +
             hashOutputs +
@@ -324,13 +339,13 @@ def create_p2pkh_transaction(
         hashed = sha256(to_be_hashed)  # BIP-143: Used for Bitcoin SV
 
         # signature = private_key.sign(hashed) + b'\x01'
-        signature = default_private_key.sign(hashed) + b'\x41'
+        signature = input_private_key.sign(hashed) + b'\x41'
 
         script_sig = (
             len(signature).to_bytes(1, byteorder='little') +
             signature +
-            default_public_key_len +
-            default_public_key
+            input_public_key_len +
+            input_public_key
         )
 
         inputs[i].script = script_sig
