@@ -109,7 +109,10 @@ class NetworkAPI:
                 # TODO: Write a log here to notify the system has changed the default service.
                 self.list_of_apis.rotate(-1)
                 if call_list[-1] == api_call:   # All api iterated.
-                    raise ConnectionError('All APIs are unreachable, exception:' + str(e))
+                    end_text = ""
+                    if hasattr(e, 'response') and hasattr(e.response, 'text'):
+                        end_text = ":" + e.response.text
+                    raise ConnectionError('All APIs are unreachable, exception:' + str(e) + end_text)
 
     def get_balance(self, address):
         """Gets the balance of an address in satoshis.
